@@ -14,7 +14,7 @@
         <p class="card-text" style="height: 8rem; overflow:auto;" id="mOverview{{ $i }}"></p>
 
         <p id="mBudget{{ $i }}"></p>
-        <p style="text-align:justify; overflow:hidden; text-overflow:ellipsis; width:100%; height:2rem;"><a
+        <p style="text-align:justify; overflow:hidden; text-overflow:ellipsis; width:100%; height:2rem;">homepage:<a
                 id="mHomepage{{ $i }}" href=""></a>
             </p>
     </div>

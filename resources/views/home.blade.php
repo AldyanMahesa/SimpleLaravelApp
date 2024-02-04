@@ -8,6 +8,7 @@
     <title>Hexa Cinema</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        
 </head>
 
 <body>
@@ -34,13 +35,22 @@
 
             const d = Movies[i].runtime;
             const dmin = d % 60;
-            const dhr = (d - dmin) /60;
-            document.getElementById('mDuration' + i).innerHTML = dhr + 'hr' + dmin+'min';
-            
+            const dhr = (d - dmin) / 60;
+            document.getElementById('mDuration' + i).innerHTML = dhr + 'hr' + dmin + 'min';
+
             document.getElementById('mOverview' + i).innerHTML = Movies[i].overview;
-            document.getElementById('mHomepage' + i).innerHTML = Movies[i].homepage;
-            document.getElementById('mBudget' + i).innerHTML = 'budget :' + Movies[i].budget;
-            document.getElementById('mRating' + i).innerHTML = Movies[i].vote_average+ '(' +Movies[i].vote_count + ')';
+
+            const hp = document.getElementById('mHomepage' + i);
+            hp.innerHTML = Movies[i].homepage;
+            hp.href = Movies[i].homepage;
+
+            const f = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+
+            });
+            document.getElementById('mBudget' + i).innerHTML = 'budget :' + f.format(Movies[i].budget);
+            document.getElementById('mRating' + i).innerHTML = Movies[i].vote_average + '(' + Movies[i].vote_count + ')';
             document.getElementById('mPopularity' + i).innerHTML = Movies[i].popularity;
         }
     </script>
