@@ -14,46 +14,53 @@
 <body>
     <script>
         const Movies = {{ Illuminate\Support\Js::from($data) }};
-    </script>
 
-    <div class="d-flex flex-wrap" id="movieList">
-        @while ($count < count($data))
-            @include('component.movieCard', ['i' => $count++])
-        @endwhile
-    </div>
+        let writtenCount = 0;
+        function writeMovieItem(MovieIndex) {
+            console.log(MovieIndex);
+            const Movie = Movies[MovieIndex];
+            console.log(Movie);
+            
+            document.getElementById('mTitle' + MovieIndex).innerHTML = Movie.title;
 
-    <script>
-        for (let i = 0; i < Movies.length; i++) {
-            document.getElementById('mTitle' + i).innerHTML = Movies[i].title;
-
-            fetch('{{ asset('company') }}' + Movies[i].company_id).then(r => r.json()).then(data => {
-                document.getElementById('mProductionCompany' + i).innerHTML = data.company_name;
+            fetch('{{ asset('company') }}' + Movie.company_id).then(r => r.json()).then(data => {
+                document.getElementById('mProductionCompany' + MovieIndex).innerHTML = data.company_name;
             });
 
-            const rd = new Date(Movies[i].release_date);
-            document.getElementById('mReleaseDate' + i).innerHTML = rd.getFullYear();
+            const rd = new Date(Movie.release_date);
+            document.getElementById('mReleaseDate' + MovieIndex).innerHTML = rd.getFullYear();
 
-            const d = Movies[i].runtime;
+            const d = Movie.runtime;
             const dmin = d % 60;
             const dhr = (d - dmin) / 60;
-            document.getElementById('mDuration' + i).innerHTML = dhr + 'hr' + dmin + 'min';
+            document.getElementById('mDuration' + MovieIndex).innerHTML = dhr + 'hr' + dmin + 'min';
 
-            document.getElementById('mOverview' + i).innerHTML = Movies[i].overview;
+            document.getElementById('mOverview' + MovieIndex).innerHTML = Movie.overview;
 
-            const hp = document.getElementById('mHomepage' + i);
-            hp.innerHTML = Movies[i].homepage;
-            hp.href = Movies[i].homepage;
+            const hp = document.getElementById('mHomepage' + MovieIndex);
+            hp.innerHTML = Movie.homepage;
+            hp.href = Movie.homepage;
 
             const f = new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: 'USD',
 
             });
-            document.getElementById('mBudget' + i).innerHTML = 'budget :' + f.format(Movies[i].budget);
-            document.getElementById('mRating' + i).innerHTML = Movies[i].vote_average + '(' + Movies[i].vote_count + ')';
-            document.getElementById('mPopularity' + i).innerHTML = Movies[i].popularity;
+            document.getElementById('mBudget' + MovieIndex).innerHTML = 'budget :' + f.format(Movie.budget);
+            document.getElementById('mRating' + MovieIndex).innerHTML = Movie.vote_average + '(' + Movie.vote_count + ')';
+            document.getElementById('mPopularity' + MovieIndex).innerHTML = Movie.popularity;
         }
     </script>
+
+    <div class="d-flex flex-wrap" id="movieList">
+        @while ($count < count($data))
+            @include('component.movieCard', ['i' => $count++])
+            <script>
+                writeMovieItem(writtenCount);
+                writtenCount = {{$count}};
+            </script>
+        @endwhile
+    </div>
 
 </body>
 
